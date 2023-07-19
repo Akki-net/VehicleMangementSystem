@@ -12,6 +12,7 @@ var vManageRouter = require('./routes/vManageRoutes');
 var vSearchRouter = require('./routes/vSearchRoutes');
 var cManageRouter = require('./routes/cManageRoutes');
 var bManageRouter = require('./routes/bManageRoutes');
+var statRouter = require('./routes/rentalStatRoutes');
 
 var app = express();
 
@@ -49,6 +50,7 @@ app.use('/vManage', vManageRouter);
 app.use('/cManage', cManageRouter);
 app.use('/bManage', bManageRouter);
 app.use('/vSearch', vSearchRouter);
+app.use('/stat', statRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
