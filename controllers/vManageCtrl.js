@@ -20,3 +20,19 @@ exports.remove = async (req, res) => {
     await Vehicle.deleteOne({ model });
     res.send("vehicle deleted successfully");
 }
+
+exports.maintain = async (req, res) => {
+    const {model, period} = req.body;
+
+    const vehicle = await Vehicle.findOne({model});
+    if(vehicle.availability_status){
+        vehicle.maintenance_period = period;
+        vehicle.maintenance_status = true;
+
+        vehicle.save();
+
+        return res.status(200).send("vehicle is sent for maintenance");
+    }
+
+    res.send("vehicle isn't available right now.");
+}
