@@ -2,6 +2,7 @@ require('dotenv').config();
 var express = require('express');
 var router = express.Router();
 var Admin = require("../models/Admin");
+var Customer = require("../models/Customer");
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken');
 
@@ -41,6 +42,32 @@ router.post('/adminLogin', async (req, res) => {
   res
     .status(200)
     .send({ token, username: user.username })
+})
+
+router.post('/userLogin', async (req, res) => {
+  const { username, password } = req.body
+
+  const user = await Customer.findOne({ email: username })
+  const passwordCorrect = user === null
+    ? false
+    : await bcrypt.compare(password, user.passwordHash)
+
+  if (!(user && passwordCorrect)) {
+    return res.status(401).json({
+      error: 'invalid username or password'
+    })
+  }
+
+  const userForToken = {
+    username: user.email,
+    id: user._id,
+  }
+
+  const token = jwt.sign(userForToken, process.env.USERSECRET)
+
+  res
+    .status(200)
+    .send({ token, username: user.email })
 })
 
 module.exports = router;

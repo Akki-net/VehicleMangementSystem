@@ -21,3 +21,16 @@ exports.adminAuth = async (req, res, next) => {
 
     next();
 }
+
+exports.userAuth = async (req, res, next) => {
+    if(!getTokenFrom(req, res)){
+        return res.send("Unathorised Access!");
+    }
+    
+    const decodedToken = jwt.verify(getTokenFrom(req, res), process.env.USERSECRET)
+    if (!decodedToken.id) {
+        return res.status(401).json({ error: 'token invalid' })
+    }
+
+    next();
+}
