@@ -16,7 +16,8 @@ const customerSchema = new mongoose.Schema({
         validate: [validateEmail, 'Please fill a valid email address'],
         match: [/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, 'Please fill a valid email address']
     },
-    contact_number: { type: Number, required: true, min: [6, 'Too short contact'], size: 10 }
+    contact_number: { type: Number, required: true, min: [6, 'Too short contact'], size: 10 },
+    passwordHash: { type: String, required: true}
 });
 
 module.exports = mongoose.model("Customer", customerSchema, "Customer");

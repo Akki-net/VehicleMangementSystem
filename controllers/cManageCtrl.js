@@ -1,7 +1,11 @@
 const Customer = require("../models/Customer");
+const bcrypt = require('bcrypt')
 
 exports.add = async (req, res) => {
-    await Customer.create(req.body);
+    const { name, email, contact_number, password } = req.body;
+    const saltRounds = 10
+    const passwordHash = await bcrypt.hash(password, saltRounds);
+    await Customer.create({ name, email, contact_number, passwordHash });
     res.send("Customer added successfully.");
 }
 
