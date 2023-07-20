@@ -18,7 +18,7 @@ exports.book = async (req, res) => {
             }
         })
 
-        return res.send("Vehicle is booked successfully.");
+        return res.status(201).send("Vehicle is booked successfully.");
     }
    
     res.send("Vehicle is already booked");
