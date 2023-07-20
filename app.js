@@ -1,11 +1,12 @@
 require('dotenv').config();
+require('express-async-errors');
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var mongoose = require('mongoose');
-require('express-async-errors');
+var config = require("./utils/config")
 
 var indexRouter = require('./routes/index');
 var vManageRouter = require('./routes/vManageRoutes');
@@ -29,7 +30,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 //Connecting to Mongodb
 const db = async () => {
   try {
-    const conn = await mongoose.connect(`mongodb+srv://VMS:${process.env.DB_PASS}@cluster0.wtxu99s.mongodb.net/vRent`, {
+    await mongoose.connect(config.MONGODB_URI, {
       useNewUrlParser: true,
       useUnifiedTopology: true
     });

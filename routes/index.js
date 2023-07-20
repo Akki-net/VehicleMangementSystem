@@ -15,7 +15,7 @@ router.post('/createAdmin', async (req, res) => {
   const saltRounds = 10
   const hashPass = await bcrypt.hash(req.body.password, saltRounds);
   await Admin.create({username: req.body.username, hashPass});
-  res.send("admin is created");
+  res.status(201).send("admin is created");
 })
 
 router.post('/adminLogin', async (req, res) => {

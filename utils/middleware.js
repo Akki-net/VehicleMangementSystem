@@ -3,18 +3,20 @@ const jwt = require('jsonwebtoken');
 
 const getTokenFrom = (req, res) => {
     const authorization = req.get('authorization');
+
     if (authorization && authorization.startsWith('Bearer ')) {
-      return authorization.replace('Bearer ', '');
+        return authorization.replace('Bearer ', '');
     }
     return null
-  }
+}
 
 exports.adminAuth = async (req, res, next) => {
-    if(!getTokenFrom(req, res)){
+    const token = getTokenFrom(req, res);
+    if (!token) {
         return res.send("Unathorised Access!");
     }
 
-    const decodedToken = jwt.verify(getTokenFrom(req, res), process.env.SECRET)
+    const decodedToken = jwt.verify(token, process.env.SECRET)
     if (!decodedToken.id) {
         return res.status(401).json({ error: 'token invalid' })
     }
@@ -23,11 +25,12 @@ exports.adminAuth = async (req, res, next) => {
 }
 
 exports.userAuth = async (req, res, next) => {
-    if(!getTokenFrom(req, res)){
+    const token = getTokenFrom(req, res);
+    if (!token) {
         return res.send("Unathorised Access!");
     }
-    
-    const decodedToken = jwt.verify(getTokenFrom(req, res), process.env.USERSECRET)
+
+    const decodedToken = jwt.verify(token, process.env.USERSECRET)
     if (!decodedToken.id) {
         return res.status(401).json({ error: 'token invalid' })
     }

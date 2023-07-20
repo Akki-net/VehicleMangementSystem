@@ -2,7 +2,7 @@ const Vehicle = require("../models/Vehicle");
 
 exports.add = async (req, res) => {
     await Vehicle.create(req.body);
-    res.send("vehicle added successfully.");
+    res.status(201).send("vehicle added successfully.");
 }
 
 exports.update = async (req, res) => {
