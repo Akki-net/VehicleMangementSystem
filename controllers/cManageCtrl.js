@@ -6,7 +6,7 @@ exports.add = async (req, res) => {
     const saltRounds = 10
     const passwordHash = await bcrypt.hash(password, saltRounds);
     await Customer.create({ name, email, contact_number, passwordHash });
-    res.send("Customer added successfully.");
+    res.status(201).send("Customer added successfully.");
 }
 
 exports.update = async (req, res) => {
